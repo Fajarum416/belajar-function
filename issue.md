@@ -8,8 +8,8 @@ Dalam struktur MVC, **Controller** adalah bagian yang paling penting untuk dipah
 ```php
 require_once __DIR__ . '/../models/SiswaModel.php';
 ```
-*   **Analogi:** Pelayan harus tahu di mana lokasi dapur (Model) sebelum dia bisa memesan makanan.
-*   **Fungsi:** Baris ini memastikan Controller tahu tentang adanya Class `SiswaModel` yang bertugas mengambil data dari database MySQL.
+- **Analogi:** Pelayan harus tahu di mana lokasi dapur (Model) sebelum dia bisa memesan makanan.
+- **Fungsi:** Baris ini memastikan Controller tahu tentang adanya Class `SiswaModel` yang bertugas mengambil data dari database MySQL.
 
 ---
 
@@ -23,8 +23,8 @@ class SiswaController {
     }
 }
 ```
-*   **Analogi:** Saat Pelayan mulai bekerja (`__construct`), dia langsung menyiapkan koneksi ke Dapur (`new SiswaModel`).
-*   **Fungsi:** Kita membuat objek `$model` di dalam Controller agar Controller bisa menyuruh Model melakukan tugas-tugas database kapan saja.
+- **Analogi:** Saat Pelayan mulai bekerja (`__construct`), dia langsung menyiapkan koneksi ke Dapur (`new SiswaModel`).
+- **Fungsi:** Kita membuat objek `$model` di dalam Controller agar Controller bisa menyuruh Model melakukan tugas-tugas database kapan saja.
 
 ---
 
@@ -39,8 +39,8 @@ public function index() {
     include __DIR__ . '/../views/SiswaView.php';
 }
 ```
-*   **Analogi:** Pelayan bertanya ke Koki: "Koki, tolong berikan data semua siswa" (`getAllSiswa`). Koki memberikan datanya dalam bentuk array (makanan yang sudah matang). Lalu pelayan mengambil piring (`SiswaView.php`) dan meletakkan makanan tadi di atasnya.
-*   **Penting:** Perhatikan bahwa variabel `$dataSiswa` dibuat di Controller, secara otomatis variabel ini akan **bisa dibaca** oleh file `SiswaView.php` karena file tersebut di-`include` di sini.
+- **Analogi:** Pelayan bertanya ke Koki: "Koki, tolong berikan data semua siswa" (`getAllSiswa`). Koki memberikan datanya dalam bentuk array (makanan yang sudah matang). Lalu pelayan mengambil piring (`SiswaView.php`) dan meletakkan makanan tadi di atasnya.
+- **Penting:** Perhatikan bahwa variabel `$dataSiswa` dibuat di Controller, secara otomatis variabel ini akan **bisa dibaca** oleh file `SiswaView.php` karena file tersebut di-`include` di sini.
 
 ---
 
@@ -50,13 +50,34 @@ public function tambahSiswa($nama, $nilai1, $nilai2) {
     $this->model->saveSiswa($nama, $nilai1, $nilai2);
 }
 ```
-*   **Analogi:** Pelayan mencatat pesanan dari pelanggan, lalu memberikannya ke Koki untuk dimasak (disimpan ke database).
+- **Analogi:** Pelayan mencatat pesanan dari pelanggan, lalu memberikannya ke Koki untuk dimasak (disimpan ke database).
 
 ---
 
-## Kesimpulan
-Tanpa **Controller**, Model dan View tidak akan pernah bertemu. 
-- **Model** hanya diam punya data tapi tidak tahu cara menampilkannya. 
-- **View** hanya punya tampilan tapi tidak punya data untuk ditampilkan.
+# Tanya Jawab: Penamaan & Fleksibilitas dalam MVC
 
-**Controller** adalah "Otak" yang mengatur kapan data harus diambil dan kapan data harus ditampilkan.
+Dua pertanyaan penting mengenai fleksibilitas struktur MVC yang telah kita buat:
+
+---
+
+## 1. Apakah penamaan objek Model itu bebas?
+**Pertanyaan:** Apakah penamaan objek model (seperti `$this->model`) itu bebas? Dan apakah memang harus dibuat di dalam Controller dengan memanggil class dari file `SiswaModel.php`?
+
+**Jawaban:**
+- **Penamaan BEBAS:** Nama variabel seperti `$this->model` hanyalah standar atau kesepakatan agar mudah dibaca oleh sesama programmer. Kamu bebas menamainya `$this->koki`, `$this->data`, atau `$this->dbSiswa`.
+- **Dibuat di Controller:** Ya, dalam PHP MVC dasar, Controller bertanggung jawab menyiapkan "alat-alatnya". Dengan membuat `new SiswaModel()` di dalam `__construct` Controller, kita memastikan bahwa setiap kali Controller dipanggil, ia sudah siap dengan koneksi data.
+- **Koneksi Otomatis:** Karena di dalam `SiswaModel.php` kita memanggil `require 'koneksi.php'`, maka saat Controller membuat objek model, seluruh jalur ke database sudah terhubung rapi via objek tersebut.
+
+---
+
+## 2. Apakah fungsi di dalam Model tergantung kebutuhan?
+**Pertanyaan:** Apakah fungsi di dalam Model (seperti `getAllSiswa`) fleksibel tergantung kebutuhan aplikasi, karena yang menggunakannya adalah Controller?
+
+**Jawaban:**
+- **Sangat Fleksibel:** Isi dari Model sangat bergantung pada fitur aplikasi kamu. Tidak harus terbatas pada `getAllSiswa()` atau `saveSiswa()`.
+- **Sesuai Fitur:** Jika kamu ingin menambah fitur "Hapus Siswa", kamu tinggal menambah fungsi `hapusSiswa($id)` di Model. Jika ingin "Cari Siswa", tambahkan `cariSiswa($nama)`.
+- **Analogi Toko Alat:** Model adalah seperti **Toko Bangunan** yang menyediakan alat (Palu, Gergaji, Obeng). Controller adalah **Tukang Bangunan** yang memilih alat mana yang mau dipakai sesuai pekerjaan yang sedang dilakukan.
+
+---
+
+**Kesimpulan:** Controller adalah "Otak" yang mengatur kapan data harus diambil, diolah oleh Model, dan disajikan melalui View.
