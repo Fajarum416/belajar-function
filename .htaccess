@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    # Aktifkan Mesin Rewrite
+    RewriteEngine On
+
+    # Jika yang dipanggil bukan file asli (-f)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # Dan jika yang dipanggil bukan folder asli (-d)
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Maka arahkan semuanya ke index.php dengan parameter url
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
