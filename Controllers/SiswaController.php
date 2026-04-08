@@ -1,9 +1,10 @@
 <?php
+namespace App\Controllers;
+
+use App\Models\SiswaModel;
 
 // INI ADALAH CONTROLLER (SI PELAYAN)
 // Tugasnya: Menerima pesanan dan memanggil koki (Model), lalu mengirim makanan ke piring (View).
-
-require_once __DIR__ . '/../models/SiswaModel.php';
 
 class SiswaController
 {
