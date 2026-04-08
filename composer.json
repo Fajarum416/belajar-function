@@ -1,0 +1,16 @@
+{
+    "name": "fajarum416/belajar-function",
+    "description": "Belajar MVC Dasar dengan PHP",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Fajarum416"
+        }
+    ],
+    "require": {}
+}

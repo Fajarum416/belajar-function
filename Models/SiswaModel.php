@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+
 
 // INI ADALAH MODEL (SI KOKI)
 // Tugasnya: Hanya berhubungan dengan Database MySQL.
